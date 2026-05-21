@@ -1,0 +1,30 @@
+name: Create Release
+
+on:
+  workflow_dispatch:
+    inputs:
+      tag_name:
+        description: 'Release tag name'
+        required: true
+        default: 'v0.1.0'
+      release_name:
+        description: 'Release title'
+        required: true
+        default: 'First release'
+      body:
+        description: 'Release notes'
+        required: false
+        default: 'Initial release for dev-space.'
+
+jobs:
+  create:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Create GitHub release
+        uses: ncipollo/release-action@v1
+        with:
+          tag: ${{ github.event.inputs.tag_name }}
+          release_name: ${{ github.event.inputs.release_name }}
+          body: ${{ github.event.inputs.body }}
+          draft: false
+          prerelease: false
